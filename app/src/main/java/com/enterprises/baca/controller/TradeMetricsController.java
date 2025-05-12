@@ -2,13 +2,14 @@ package com.enterprises.baca.controller;
 
 import com.enterprises.baca.model.TradeStats;
 import com.enterprises.baca.service.TradeMetricsStore;
-import com.enterprises.baca.service.TradeProcessorService;
 import com.enterprises.baca.service.TradeRankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/metrics")
@@ -16,10 +17,9 @@ import java.util.*;
 public class TradeMetricsController {
 
     private final TradeMetricsStore metricsStore;
-    private final TradeProcessorService processorService;
     private final TradeRankingService rankingService;
 
-    @GetMapping("/ticker")
+    @GetMapping("/{ticker}")
     public ResponseEntity<TradeStats> getMetricForTicker(@PathVariable String ticker) {
         Optional<TradeStats> stats = metricsStore.getStats(ticker.toUpperCase());
 
@@ -44,7 +44,6 @@ public class TradeMetricsController {
             @RequestParam(defaultValue = "desc") String order
     ) {
         boolean ascending = order.equalsIgnoreCase("asc");
-//        return getRanked(Comparator.comparingDouble(TradeStats::totalVolume), limit, order);
         return rankingService.rankBy(TradeStats::totalVolume, limit, ascending);
     }
 
