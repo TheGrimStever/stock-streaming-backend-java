@@ -13,7 +13,7 @@ public class TradeMetricsStore {
     private final Map<String, Deque<Double>> priceHistory = new ConcurrentHashMap<>();
     private final Map<String, Integer> totalVolumeMap = new ConcurrentHashMap<>();
     @Value("${metrics.window-size:10}")
-    private int windowSize;
+    private int windowSize = 10;
 
     public void recordTrade(String ticker, double price, int volume) {
         priceHistory.computeIfAbsent(ticker, k -> new ArrayDeque<>());
