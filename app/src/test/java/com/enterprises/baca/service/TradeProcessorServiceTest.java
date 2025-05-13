@@ -4,7 +4,8 @@ import com.enterprises.baca.model.Trade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class TradeProcessorServiceTest {
 
@@ -14,7 +15,8 @@ class TradeProcessorServiceTest {
     @BeforeEach
     void setUp() {
         metricsStore = mock(TradeMetricsStore.class);
-        processor = new TradeProcessorService(metricsStore);
+        SseEmitterService emitterService = mock(SseEmitterService.class);
+        processor = new TradeProcessorService(metricsStore, emitterService);
     }
 
     @Test

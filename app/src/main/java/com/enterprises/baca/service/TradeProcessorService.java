@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 public class TradeProcessorService {
 
     private final TradeMetricsStore metricsStore;
+    private final SseEmitterService emitterService;
 
     public void process(Trade trade) {
         metricsStore.recordTrade(trade.ticker(), trade.price(), trade.volume());
+        emitterService.publish(trade);
     }
 }
